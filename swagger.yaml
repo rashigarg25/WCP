@@ -1,718 +1,1840 @@
----
-swagger: "2.0"
+openapi: 3.0.3
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
-  version: "1.0.5"
-  title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
-basePath: "/v2"
-tags:
-- name: "pet"
-  description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to Petstore orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
-- "http"
+  title: WCP
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: https://hermes.walmartapis.com
+  - url: https://hermes-stg.walmartapis.com
+  - url: https://hermes-teflon.walmartapis.com
 paths:
-  /pet/{petId}/uploadImage:
+  /messages:
     post:
-      tags:
-      - "pet"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-      - "multipart/form-data"
-      produces:
-      - "application/json"
+      summary: Send message
+      description: Send message
+      operationId: sendMessage
       parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to update"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "additionalMetadata"
-        in: "formData"
-        description: "Additional data to pass to server"
-        required: false
-        type: "string"
-      - name: "file"
-        in: "formData"
-        description: "file to upload"
-        required: false
-        type: "file"
-      responses:
-        200:
-          description: "successful operation"
+        - name: wm_consumer.id
+          in: header
           schema:
-            $ref: "#/definitions/ApiResponse"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet:
-    post:
-      tags:
-      - "pet"
-      summary: "Add a new pet to the store"
-      description: ""
-      operationId: "addPet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ab_test:
+                  nullable: true
+                  example: null
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      attachment_path:
+                        type: string
+                        example: ''
+                      content:
+                        type: string
+                        example: ''
+                      content_id:
+                        type: string
+                        example: ''
+                      content_type:
+                        type: string
+                        example: ''
+                      disposition:
+                        type: string
+                        example: ''
+                      filename:
+                        type: string
+                        example: ''
+                  example:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                customer_id:
+                  type: string
+                  example: ''
+                event:
+                  type: object
+                  properties:
+                    segment:
+                      type: string
+                      example: ''
+                    sub_type:
+                      type: string
+                      example: ''
+                    type:
+                      type: string
+                      example: testing_multi_template
+                pass_thru_tags:
+                  nullable: true
+                  example: null
+                payload:
+                  type: object
+                  properties: {}
+                recipients:
+                  type: object
+                  properties:
+                    email_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    inappnotif_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    push_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    sms_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    voice_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    whatsapp_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                request_id:
+                  type: string
+                  example: voice-prod-us-43
+                schedule_at:
+                  type: string
+                  example: ''
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: ''
+                    timezone:
+                      type: string
+                      example: ''
+                    zip_code:
+                      type: string
+                      example: ''
+                template:
+                  type: string
+                  example: ''
+            examples:
+              Send message:
+                value:
+                  ab_test: null
+                  attachments:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                  customer_id: ''
+                  event:
+                    segment: ''
+                    sub_type: ''
+                    type: testing_multi_template
+                  pass_thru_tags: null
+                  payload: {}
+                  recipients:
+                    email_recipients:
+                      - ''
+                      - ''
+                    inappnotif_recipients:
+                      - ''
+                      - ''
+                    push_recipients:
+                      - ''
+                      - ''
+                    sms_recipients:
+                      - ''
+                      - ''
+                    voice_recipients:
+                      - ''
+                      - ''
+                    whatsapp_recipients:
+                      - ''
+                      - ''
+                  request_id: voice-prod-us-43
+                  schedule_at: ''
+                  social_hour:
+                    country_code: ''
+                    timezone: ''
+                    zip_code: ''
+                  template: ''
       responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+        '200':
+          description: ''
+  /ops/requests/status:
+    post:
+      summary: Get status
+      description: Get status
+      operationId: getStatus
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_ids:
+                  type: array
+                  items:
+                    type: string
+                    example: ''
+                  example:
+                    - ''
+                    - ''
+            examples:
+              Get status:
+                value:
+                  request_ids:
+                    - ''
+                    - ''
+      responses:
+        '200':
+          description: ''
+  /messages/schedule:
+    post:
+      summary: Schedule message
+      description: Schedule message
+      operationId: scheduleMessage
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ab_test:
+                  nullable: true
+                  example: null
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      attachment_path:
+                        type: string
+                        example: ''
+                      content:
+                        type: string
+                        example: ''
+                      content_id:
+                        type: string
+                        example: ''
+                      content_type:
+                        type: string
+                        example: ''
+                      disposition:
+                        type: string
+                        example: ''
+                      filename:
+                        type: string
+                        example: ''
+                  example:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                customer_id:
+                  type: string
+                  example: ''
+                event:
+                  type: object
+                  properties:
+                    segment:
+                      type: string
+                      example: ''
+                    sub_type:
+                      type: string
+                      example: ''
+                    type:
+                      type: string
+                      example: testing_multi_template
+                pass_thru_tags:
+                  nullable: true
+                  example: null
+                payload:
+                  type: object
+                  properties: {}
+                recipients:
+                  type: object
+                  properties:
+                    email_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    inappnotif_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    push_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    sms_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    voice_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    whatsapp_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                request_id:
+                  type: string
+                  example: voice-prod-us-43
+                schedule_at:
+                  type: string
+                  example: ''
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: ''
+                    timezone:
+                      type: string
+                      example: ''
+                    zip_code:
+                      type: string
+                      example: ''
+                template:
+                  type: string
+                  example: ''
+            examples:
+              Schedule message:
+                value:
+                  ab_test: null
+                  attachments:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                  customer_id: ''
+                  event:
+                    segment: ''
+                    sub_type: ''
+                    type: testing_multi_template
+                  pass_thru_tags: null
+                  payload: {}
+                  recipients:
+                    email_recipients:
+                      - ''
+                      - ''
+                    inappnotif_recipients:
+                      - ''
+                      - ''
+                    push_recipients:
+                      - ''
+                      - ''
+                    sms_recipients:
+                      - ''
+                      - ''
+                    voice_recipients:
+                      - ''
+                      - ''
+                    whatsapp_recipients:
+                      - ''
+                      - ''
+                  request_id: voice-prod-us-43
+                  schedule_at: ''
+                  social_hour:
+                    country_code: ''
+                    timezone: ''
+                    zip_code: ''
+                  template: ''
+      responses:
+        '200':
+          description: ''
+  /messages/schedule/{request-id}:
     put:
-      tags:
-      - "pet"
-      summary: "Update an existing pet"
-      description: ""
-      operationId: "updatePet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
+      summary: Schedule message
+      description: Schedule message
+      operationId: scheduleMessage1
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-        405:
-          description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByStatus:
-    get:
-      tags:
-      - "pet"
-      summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "findPetsByStatus"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "status"
-        in: "query"
-        description: "Status values that need to be considered for filter"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
+        - name: wm_consumer.id
+          in: header
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid status value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByTags:
-    get:
-      tags:
-      - "pet"
-      summary: "Finds Pets by tags"
-      description: "Multiple tags can be provided with comma separated strings. Use\
-        \ tag1, tag2, tag3 for testing."
-      operationId: "findPetsByTags"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "tags"
-        in: "query"
-        description: "Tags to filter by"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      deprecated: true
-  /pet/{petId}:
-    get:
-      tags:
-      - "pet"
-      summary: "Find pet by ID"
-      description: "Returns a single pet"
-      operationId: "getPetById"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
           schema:
-            $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
-    post:
-      tags:
-      - "pet"
-      summary: "Updates a pet in the store with form data"
-      description: ""
-      operationId: "updatePetWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the pet"
-        required: false
-        type: "string"
-      - name: "status"
-        in: "formData"
-        description: "Updated status of the pet"
-        required: false
-        type: "string"
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ab_test:
+                  nullable: true
+                  example: null
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      attachment_path:
+                        type: string
+                        example: ''
+                      content:
+                        type: string
+                        example: ''
+                      content_id:
+                        type: string
+                        example: ''
+                      content_type:
+                        type: string
+                        example: ''
+                      disposition:
+                        type: string
+                        example: ''
+                      filename:
+                        type: string
+                        example: ''
+                  example:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                customer_id:
+                  type: string
+                  example: ''
+                event:
+                  type: object
+                  properties:
+                    segment:
+                      type: string
+                      example: ''
+                    sub_type:
+                      type: string
+                      example: ''
+                    type:
+                      type: string
+                      example: testing_multi_template
+                pass_thru_tags:
+                  nullable: true
+                  example: null
+                payload:
+                  type: object
+                  properties: {}
+                recipients:
+                  type: object
+                  properties:
+                    email_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    inappnotif_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    push_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    sms_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    voice_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                    whatsapp_recipients:
+                      type: array
+                      items:
+                        type: string
+                        example: ''
+                      example:
+                        - ''
+                        - ''
+                schedule_at:
+                  type: string
+                  example: ''
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: ''
+                    timezone:
+                      type: string
+                      example: ''
+                    zip_code:
+                      type: string
+                      example: ''
+                template:
+                  type: string
+                  example: ''
+            examples:
+              Schedule message:
+                value:
+                  ab_test: null
+                  attachments:
+                    - attachment_path: ''
+                      content: ''
+                      content_id: ''
+                      content_type: ''
+                      disposition: ''
+                      filename: ''
+                  customer_id: ''
+                  event:
+                    segment: ''
+                    sub_type: ''
+                    type: testing_multi_template
+                  pass_thru_tags: null
+                  payload: {}
+                  recipients:
+                    email_recipients:
+                      - ''
+                      - ''
+                    inappnotif_recipients:
+                      - ''
+                      - ''
+                    push_recipients:
+                      - ''
+                      - ''
+                    sms_recipients:
+                      - ''
+                      - ''
+                    voice_recipients:
+                      - ''
+                      - ''
+                    whatsapp_recipients:
+                      - ''
+                      - ''
+                  schedule_at: ''
+                  social_hour:
+                    country_code: ''
+                    timezone: ''
+                    zip_code: ''
+                  template: ''
       responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+        '200':
+          description: ''
     delete:
-      tags:
-      - "pet"
-      summary: "Deletes a pet"
-      description: ""
-      operationId: "deletePet"
-      produces:
-      - "application/json"
-      - "application/xml"
+      summary: Schedule message
+      description: Schedule message
+      operationId: scheduleMessage2
       parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "petId"
-        in: "path"
-        description: "Pet id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
       responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /store/order:
-    post:
-      tags:
-      - "store"
-      summary: "Place an order for a pet"
-      description: ""
-      operationId: "placeOrder"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "order placed for purchasing the pet"
+        '200':
+          description: ''
+    parameters:
+      - name: request-id
+        in: path
         required: true
         schema:
-          $ref: "#/definitions/Order"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid Order"
-  /store/order/{orderId}:
-    get:
-      tags:
-      - "store"
-      summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.\
-        \ Other values will generated exceptions"
-      operationId: "getOrderById"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        maximum: 10
-        minimum: 1
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-    delete:
-      tags:
-      - "store"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.\
-        \ Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
-        required: true
-        type: "integer"
-        minimum: 1
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-  /store/inventory:
-    get:
-      tags:
-      - "store"
-      summary: "Returns pet inventories by status"
-      description: "Returns a map of status codes to quantities"
-      operationId: "getInventory"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "object"
-            additionalProperties:
-              type: "integer"
-              format: "int32"
-      security:
-      - api_key: []
-  /user/createWithArray:
+          type: string
+  /:
     post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
+      summary: Webhook
+      description: Webhook
+      operationId: webhook
       parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/createWithList:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/{username}:
-    get:
-      tags:
-      - "user"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
+        - name: wm_consumer.id
+          in: header
           schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Webhook:
+                value: |-
+                  {
+                    "event": {
+                      "type": "ready-for-pickup",
+                      "sub_type": "",
+                      "segment": "oaoh"
+                    },
+                    "payload": {
+                      "request_id": "9c5c3e9c-b283-34d5-9293-84f311e232af",
+                      "message_id": "9293-84f311e232af-9c5c3e9c-b283-34d",
+                      "requested_at": "2023-05-28T01:30:55+00:00",
+                      "status_at": "2023-05-28T01:30:55+00:00",
+                      "status": "DELIVERED",
+                      "recipient_id": "18165420824",
+                      "channel": "sms",
+                      "tags": {
+                        "order_id": "1897321812894",
+                        "order_date": "2023-05-28T01:30:55+00:00",
+                        "batch_id": "9c5c3e9c-b283-34d5-9293-84f311e232af",      // specific to bulk comms
+                        "campaign_id": "9c5c3e9c-b283-34d5-9293-84f311e232af"     // specific to bulk comms
+                      },
+                      "pass_thru_tags": {                                          // not added yet. Need to be discussed.
+                        "txn_id": "39e7fe9ufy9fhre98fhre9fiyre90"
+                      },
+                      "vendor": "IMI",
+                      "vendor_ref_id": "",
+                      "error": {
+                        "error_desc": "",
+                        "error_code": ""
+                      }
+                    }
+                  }
+      responses:
+        '200':
+          description: ''
+  /messages/email:
+    post:
+      summary: Send message Bidirectional
+      description: Send message Bidirectional
+      operationId: sendMessageBidirectional
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Send message Bidirectional:
+                value: ''
+      responses:
+        '200':
+          description: ''
+  /ops/batches/status:
+    post:
+      summary: Get bulk status
+      description: Get bulk status
+      operationId: getBulkStatus
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: consumer-id
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                batch_ids:
+                  type: array
+                  items:
+                    type: string
+                    example: bid_1
+                  example:
+                    - bid_1
+                    - bid_2
+                campaign_id:
+                  type: string
+                  example: cid
+                channel:
+                  type: string
+                  example: channel
+                date_range:
+                  type: object
+                  properties:
+                    from:
+                      type: string
+                      example: yyyy-MM-dd'T'HH:mm:ss. SSSXXX
+                    to:
+                      type: string
+                      example: yyyy-MM-dd'T'HH:mm:ss. SSSXXX
+            examples:
+              Get bulk status:
+                value:
+                  batch_ids:
+                    - bid_1
+                    - bid_2
+                  campaign_id: cid
+                  channel: channel
+                  date_range:
+                    from: yyyy-MM-dd'T'HH:mm:ss. SSSXXX
+                    to: yyyy-MM-dd'T'HH:mm:ss. SSSXXX
+      responses:
+        '200':
+          description: ''
+  /messages/bulk:
+    post:
+      summary: Bulk All Channel
+      description: Bulk All Channel
+      operationId: bulkAllChannel
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: ' HERMES-API'
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: ' abc'
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: ' oms'
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: ' en-us'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachments:
+                  nullable: true
+                  example: null
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: bulk-comms-test-event
+                payload:
+                  type: object
+                  properties: {}
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      customer_id:
+                        type: string
+                        example: cust1
+                      email_recipient:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                            example: ayesha.dev@walmart.com
+                          name:
+                            type: string
+                            example: Ayesha Dev
+                      personalization:
+                        type: object
+                        properties: {}
+                      push_recipient:
+                        type: object
+                        properties:
+                          customer_id:
+                            type: string
+                            example: cust1
+                      sms_recipient:
+                        type: object
+                        properties:
+                          country_code:
+                            type: string
+                            example: '1'
+                          phone:
+                            type: string
+                            example: '4176471497'
+                  example:
+                    - customer_id: cust1
+                      email_recipient:
+                        email: ayesha.dev@walmart.com
+                        name: Ayesha Dev
+                      personalization: {}
+                      push_recipient:
+                        customer_id: cust1
+                      sms_recipient:
+                        country_code: '1'
+                        phone: '4176471497'
+                    - customer_id: cust2
+                      email_recipient:
+                        email: abdul.ahad@walmart.com
+                        name: Abdul Ahad
+                      personalization: {}
+                      push_recipient:
+                        customer_id: cust2
+                      sms_recipient:
+                        country_code: '1'
+                        phone: '8165420824'
+                template:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: ''
+                    push:
+                      type: string
+                      example: ''
+                    sms:
+                      type: string
+                      example: ''
+            examples:
+              Bulk All Channel:
+                value:
+                  attachments: null
+                  event_sub_type: null
+                  event_type: bulk-comms-test-event
+                  payload: {}
+                  recipients:
+                    - customer_id: cust1
+                      email_recipient:
+                        email: ayesha.dev@walmart.com
+                        name: Ayesha Dev
+                      personalization: {}
+                      push_recipient:
+                        customer_id: cust1
+                      sms_recipient:
+                        country_code: '1'
+                        phone: '4176471497'
+                    - customer_id: cust2
+                      email_recipient:
+                        email: abdul.ahad@walmart.com
+                        name: Abdul Ahad
+                      personalization: {}
+                      push_recipient:
+                        customer_id: cust2
+                      sms_recipient:
+                        country_code: '1'
+                        phone: '8165420824'
+                  template:
+                    email: ''
+                    push: ''
+                    sms: ''
+      responses:
+        '200':
+          description: ''
+  /messages/bulk/email:
+    post:
+      summary: Bulk Email Channel
+      description: Bulk Email Channel
+      operationId: bulkEmailChannel
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: recruitment-survey-test
+                metadata:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      bcc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul Alt
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul Alt
+                          - email: sushanto.halder@walmart.com
+                            name: SUSHANTO ALT
+                      cc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul123
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul123
+                      personalization:
+                        type: object
+                        properties: {}
+                      subject:
+                        type: string
+                        example: custom subject
+                      to:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul Name
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul Name
+                  example:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul123
+                      personalization: {}
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Name
+                    - to:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha Dev
+                payload:
+                  type: object
+                  properties: {}
+                subject:
+                  type: string
+                  example: This is a generic subject
+                template:
+                  type: string
+                  example: email~0~0~targetally~recruitment-survey-test~default~default
+            examples:
+              Bulk Email Channel:
+                value:
+                  event_sub_type: null
+                  event_type: recruitment-survey-test
+                  metadata:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul123
+                      personalization: {}
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Name
+                    - to:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha Dev
+                  payload: {}
+                  subject: This is a generic subject
+                  template: email~0~0~targetally~recruitment-survey-test~default~default
+      responses:
+        '200':
+          description: ''
+  /messages/bulk/push:
+    post:
+      summary: Bulk Push Channel
+      description: Bulk Push Channel
+      operationId: bulkPushChannel
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: recruitment-survey-test
+                metadata:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      customer_id:
+                        type: string
+                        example: UUID-1
+                      personalization:
+                        type: object
+                        properties: {}
+                      to:
+                        type: object
+                        properties:
+                          customer_id:
+                            type: string
+                            example: UUID-1
+                  example:
+                    - customer_id: UUID-1
+                      personalization: {}
+                      to:
+                        customer_id: UUID-1
+                    - customer_id: UUID-2
+                      personalization: {}
+                      to:
+                        customer_id: UUID-2
+                payload:
+                  type: object
+                  properties: {}
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: US
+                    timezone:
+                      type: string
+                      example: America/Los_Angeles
+                    zipcode:
+                      type: string
+                      example: '10001'
+                template:
+                  type: string
+                  example: push~0~0~hemes~recruitment-survey-test~default~default
+            examples:
+              Bulk Push Channel:
+                value:
+                  event_sub_type: null
+                  event_type: recruitment-survey-test
+                  metadata:
+                    - customer_id: UUID-1
+                      personalization: {}
+                      to:
+                        customer_id: UUID-1
+                    - customer_id: UUID-2
+                      personalization: {}
+                      to:
+                        customer_id: UUID-2
+                  payload: {}
+                  social_hour:
+                    country_code: US
+                    timezone: America/Los_Angeles
+                    zipcode: '10001'
+                  template: push~0~0~hemes~recruitment-survey-test~default~default
+      responses:
+        '200':
+          description: ''
+  /messages/bulk/sms:
+    post:
+      summary: Bulk Sms Channel
+      description: Bulk Sms Channel
+      operationId: bulkSmsChannel
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: recruitment-survey-test
+                metadata:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      customer_id:
+                        nullable: true
+                        example: null
+                      personalization:
+                        type: object
+                        properties: {}
+                      to:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            country_code:
+                              type: string
+                              example: '01'
+                            phone:
+                              type: string
+                              example: '1234567890'
+                        example:
+                          - country_code: '01'
+                            phone: '1234567890'
+                  example:
+                    - customer_id: null
+                      personalization: {}
+                      to:
+                        - country_code: '01'
+                          phone: '1234567890'
+                    - customer_id: null
+                      personalization: {}
+                      to:
+                        - phone: '1234567890'
+                        - phone: '1234567890'
+                payload:
+                  type: object
+                  properties: {}
+                segment:
+                  nullable: true
+                  example: null
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: US
+                    timezone:
+                      type: string
+                      example: America/Los_Angeles
+                    zipcode:
+                      type: string
+                      example: '10001'
+                template:
+                  type: string
+                  example: email~0~0~targetally~recruitment-survey-test~default~default
+            examples:
+              Bulk Sms Channel:
+                value:
+                  event_sub_type: null
+                  event_type: recruitment-survey-test
+                  metadata:
+                    - customer_id: null
+                      personalization: {}
+                      to:
+                        - country_code: '01'
+                          phone: '1234567890'
+                    - customer_id: null
+                      personalization: {}
+                      to:
+                        - phone: '1234567890'
+                        - phone: '1234567890'
+                  payload: {}
+                  segment: null
+                  social_hour:
+                    country_code: US
+                    timezone: America/Los_Angeles
+                    zipcode: '10001'
+                  template: email~0~0~targetally~recruitment-survey-test~default~default
+      responses:
+        '200':
+          description: ''
+  /messages/bulk/schedule/email:
+    post:
+      summary: Bulk Schedule Email
+      description: Bulk Schedule Email
+      operationId: bulkScheduleEmail
+      parameters:
+        - name: wm_consumer.id
+          in: header
+          schema:
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachments:
+                  nullable: true
+                  example: null
+                body:
+                  nullable: true
+                  example: null
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: recruitment-survey-test
+                from:
+                  nullable: true
+                  example: null
+                metadata:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      bcc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul Alt
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul Alt
+                          - email: sushanto.halder@walmart.com
+                            name: SUSHANTO ALT
+                      cc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: ayesha.dev@walmart.com
+                            name:
+                              type: string
+                              example: Ayesha 123
+                        example:
+                          - email: ayesha.dev@walmart.com
+                            name: Ayesha 123
+                      customerId:
+                        nullable: true
+                        example: null
+                      personalization:
+                        type: object
+                        properties: {}
+                      preheader:
+                        nullable: true
+                        example: null
+                      subject:
+                        type: string
+                        example: custom subject
+                      to:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul
+                  example:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha 123
+                      customerId: null
+                      personalization: {}
+                      preheader: null
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul
+                payload:
+                  type: object
+                  properties: {}
+                preheader:
+                  nullable: true
+                  example: null
+                reply_to:
+                  nullable: true
+                  example: null
+                schedule_at:
+                  type: string
+                  example: '2023-05-08T18:58:00.000+05:30'
+                segment:
+                  nullable: true
+                  example: null
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: US
+                    timezone:
+                      type: string
+                      example: America/Los_Angeles
+                    zipcode:
+                      type: string
+                      example: '10001'
+                subject:
+                  type: string
+                  example: custom subject
+                template:
+                  type: string
+                  example: email~0~0~targetally~recruitment-survey-test~default~default
+            examples:
+              Bulk Schedule Email:
+                value:
+                  attachments: null
+                  body: null
+                  event_sub_type: null
+                  event_type: recruitment-survey-test
+                  from: null
+                  metadata:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha 123
+                      customerId: null
+                      personalization: {}
+                      preheader: null
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul
+                  payload: {}
+                  preheader: null
+                  reply_to: null
+                  schedule_at: '2023-05-08T18:58:00.000+05:30'
+                  segment: null
+                  social_hour:
+                    country_code: US
+                    timezone: America/Los_Angeles
+                    zipcode: '10001'
+                  subject: custom subject
+                  template: email~0~0~targetally~recruitment-survey-test~default~default
+      responses:
+        '200':
+          description: ''
+  /messages/bulk/schedule/email/<bulk-id>:
     put:
-      tags:
-      - "user"
-      summary: "Updated user"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
+      summary: Bulk Schedule Email Update
+      description: Bulk Schedule Email Update
+      operationId: bulkScheduleEmailUpdate
       parameters:
-      - name: "username"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        400:
-          description: "Invalid user supplied"
-        404:
-          description: "User not found"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be deleted"
-        required: true
-        type: "string"
-      responses:
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-  /user/login:
-    get:
-      tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "loginUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
-        required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          headers:
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
+        - name: wm_consumer.id
+          in: header
           schema:
-            type: "string"
-        400:
-          description: "Invalid username/password supplied"
-  /user/logout:
-    get:
-      tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logoutUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters: []
+            type: string
+            example: <Consumer-Id>
+        - name: wm_svc.name
+          in: header
+          schema:
+            type: string
+            example: HERMES-API
+        - name: tenant-id
+          in: header
+          schema:
+            type: string
+            example: abc
+        - name: namespace
+          in: header
+          schema:
+            type: string
+            example: oms
+        - name: accept-language
+          in: header
+          schema:
+            type: string
+            example: en-us
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachments:
+                  nullable: true
+                  example: null
+                body:
+                  nullable: true
+                  example: null
+                event_sub_type:
+                  nullable: true
+                  example: null
+                event_type:
+                  type: string
+                  example: recruitment-survey-test
+                from:
+                  nullable: true
+                  example: null
+                metadata:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      bcc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul Alt
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul Alt
+                          - email: sushanto.halder@walmart.com
+                            name: SUSHANTO ALT
+                      cc:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: ayesha.dev@walmart.com
+                            name:
+                              type: string
+                              example: Ayesha 123
+                        example:
+                          - email: ayesha.dev@walmart.com
+                            name: Ayesha 123
+                      customerId:
+                        nullable: true
+                        example: null
+                      personalization:
+                        type: object
+                        properties: {}
+                      preheader:
+                        nullable: true
+                        example: null
+                      subject:
+                        type: string
+                        example: custom subject
+                      to:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abdul.ahad@walmart.com
+                            name:
+                              type: string
+                              example: Abdul
+                        example:
+                          - email: abdul.ahad@walmart.com
+                            name: Abdul
+                  example:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha 123
+                      customerId: null
+                      personalization: {}
+                      preheader: null
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul
+                payload:
+                  type: object
+                  properties: {}
+                preheader:
+                  nullable: true
+                  example: null
+                reply_to:
+                  nullable: true
+                  example: null
+                schedule_at:
+                  type: string
+                  example: '2023-05-08T18:58:00.000+05:30'
+                segment:
+                  nullable: true
+                  example: null
+                social_hour:
+                  type: object
+                  properties:
+                    country_code:
+                      type: string
+                      example: US
+                    timezone:
+                      type: string
+                      example: America/Los_Angeles
+                    zipcode:
+                      type: string
+                      example: '10001'
+                subject:
+                  type: string
+                  example: custom subject
+                template:
+                  type: string
+                  example: email~0~0~targetally~recruitment-survey-test~default~default
+            examples:
+              Bulk Schedule Email Update:
+                value:
+                  attachments: null
+                  body: null
+                  event_sub_type: null
+                  event_type: recruitment-survey-test
+                  from: null
+                  metadata:
+                    - bcc:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul Alt
+                        - email: sushanto.halder@walmart.com
+                          name: SUSHANTO ALT
+                      cc:
+                        - email: ayesha.dev@walmart.com
+                          name: Ayesha 123
+                      customerId: null
+                      personalization: {}
+                      preheader: null
+                      subject: custom subject
+                      to:
+                        - email: abdul.ahad@walmart.com
+                          name: Abdul
+                  payload: {}
+                  preheader: null
+                  reply_to: null
+                  schedule_at: '2023-05-08T18:58:00.000+05:30'
+                  segment: null
+                  social_hour:
+                    country_code: US
+                    timezone: America/Los_Angeles
+                    zipcode: '10001'
+                  subject: custom subject
+                  template: email~0~0~targetally~recruitment-survey-test~default~default
       responses:
-        default:
-          description: "successful operation"
-  /user:
-    post:
-      tags:
-      - "user"
-      summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "https://petstore.swagger.io/oauth/authorize"
-    flow: "implicit"
-    scopes:
-      read:pets: "read your pets"
-      write:pets: "modify pets in your account"
-definitions:
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  Pet:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      category:
-        $ref: "#/definitions/Category"
-      name:
-        type: "string"
-        example: "doggie"
-      photoUrls:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          type: "string"
-          xml:
-            name: "photoUrl"
-      tags:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          xml:
-            name: "tag"
-          $ref: "#/definitions/Tag"
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
-    xml:
-      name: "Pet"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-    xml:
-      name: "Order"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+        '200':
+          description: ''
+tags: []
